@@ -1,0 +1,20 @@
+import {pool} from "../db.js";
+
+const  createUser =async({firstName, lastName, email, hashPassword})=>{
+    console.log(firstName, lastName, email, hashPassword)
+    if(!firstName || !lastName || !hashPassword || !email){
+        throw new Error("All files are required");
+    }
+    try{
+        const result = await pool.query(
+            'INSERT INTO users (firstname,lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING *;',
+            [firstName, lastName, email, hashPassword]
+        );
+        console.log("result :", result);
+        return { code: 201, status:"success", message: "Successfully Registered", data: result.rows };
+    }catch(err){
+        return {code:401, status:"error", message:err.message};
+    }
+}
+
+export default createUser;
