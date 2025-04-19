@@ -12,4 +12,11 @@ router.post('/register',[
     userController.registerUser
 )
 
+router.post('/login',[
+    body('email').isEmail().withMessage('Email is required'),
+    body('password').isLength({min:6}).withMessage('Password is required'),
+],
+    userController.loginUser
+)
+
 export default router;

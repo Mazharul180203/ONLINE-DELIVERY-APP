@@ -1,6 +1,6 @@
 import {pool} from "../db.js";
 
-const  createUser =async({firstName, lastName, email, hashPassword})=>{
+export const  createUser =async({firstName, lastName, email, hashPassword})=>{
     console.log(firstName, lastName, email, hashPassword)
     if(!firstName || !lastName || !hashPassword || !email){
         throw new Error("All files are required");
@@ -17,4 +17,18 @@ const  createUser =async({firstName, lastName, email, hashPassword})=>{
     }
 }
 
-export default createUser;
+export const checkLogin = async({email, password}) => {
+    if(!email || !password){
+        throw new Error("All fields are required");
+    }
+    try{
+        const result = await pool.query(
+            'SELECT * FROM users WHERE email = $1',
+            [email]
+        );
+        return { code: 200, status:"success", message: "Get the data", data: result.rows };
+    }catch(err){
+        return {code:401, status:"error", message:err.message};
+    }
+}
+
