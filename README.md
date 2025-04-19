@@ -62,25 +62,7 @@ The request body must be sent in JSON format with the following fields:
 - **Status Code:** `400 Bad Request`
 - **Content:**
 ```json
-{
-  "errors": [
-    {
-      "msg": "Email is required",
-      "param": "email",
-      "location": "body"
-    },
-    {
-      "msg": "At least 3 characters long",
-      "param": "firstName",
-      "location": "body"
-    },
-    {
-      "msg": "Password is required",
-      "param": "password",
-      "location": "body"
-    }
-  ]
-}
+
 ```
 
 #### Server Errors
@@ -99,4 +81,82 @@ The request body must be sent in JSON format with the following fields:
 ## Notes
 - Ensure the `Content-Type` header is set to `application/json` when making the request.
 - The `password` field is securely hashed before being stored in the database.
+- The `token` returned in the response can be used for authentication in subsequent requests.
+
+---
+
+# User Login Endpoint
+
+## Endpoint
+`POST /login`
+
+## Description
+This endpoint allows users to log in by providing their email and password. Upon successful login, a JWT token and user details are returned.
+
+---
+
+## Request Body
+The request body must be sent in JSON format with the following fields:
+
+| Field      | Type   | Required | Description                          |
+|------------|--------|----------|--------------------------------------|
+| `email`    | String | Yes      | The user's email address. Must be a valid email. |
+| `password` | String | Yes      | The user's password. Must be at least 6 characters long. |
+
+### Example Request Body
+```json
+{
+  "email": "user@example.com",
+  "password": "securepassword"
+}
+```
+
+---
+
+## Response
+
+### Success Response
+- **Status Code:** `200 OK`
+- **Content:**
+```json
+{
+  "token": "jwt_token_here",
+  "user": {
+    "code": 200,
+    "status": "success",
+    "message": "Login successful",
+    "data": [
+      {
+        "id": 1,
+        "firstname": "John",
+        "lastname": "Doe",
+        "email": "user@example.com"
+      }
+    ]
+  }
+}
+```
+
+### Error Responses
+
+#### Validation Errors
+- **Status Code:** `400 Bad Request`
+- **Content:**
+```json
+
+```
+
+#### Authentication Errors
+- **Status Code:** `401 Unauthorized`
+- **Content:**
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+---
+
+## Notes
+- Ensure the `Content-Type` header is set to `application/json` when making the request.
 - The `token` returned in the response can be used for authentication in subsequent requests.
