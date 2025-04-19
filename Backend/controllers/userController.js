@@ -40,3 +40,7 @@ export const loginUser = async (req, res) => {
     const token = jwt.sign(user.data[0].id, process.env.JWT_SECRET)
     return res.status(200).json({token, user});
 }
+
+export const getUserProfile = async (req, res) => {
+    res.status(200).json({user: req.user});
+}

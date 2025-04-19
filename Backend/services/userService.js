@@ -32,3 +32,18 @@ export const checkLogin = async({email, password}) => {
     }
 }
 
+export const findUserById = async (id) => {
+    if(!id){
+        throw new Error("All fields are required");
+    }
+    try{
+        const result = await pool.query(
+            'SELECT * FROM users WHERE id = $1',
+            [id]
+        );
+        return { code: 200, status:"success", message: "Get the data", data: result.rows };
+    }catch(err){
+        return {code:401, status:"error", message:err.message};
+    }
+}
+
