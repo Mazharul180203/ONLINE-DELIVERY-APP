@@ -1,6 +1,6 @@
 import {validationResult} from "express-validator";
 import bcrypt from "bcrypt";
-import {createUser,checkLogin} from "../services/userService.js";
+import {createUser, checkLogin, setTokenBlacklist} from "../services/userService.js";
 import jwt from "jsonwebtoken";
 
 
@@ -37,10 +37,23 @@ export const loginUser = async (req, res) => {
     if(!isMatch){
         return res.status(401).json({message:"Invalid email or password"});
     }
-    const token = jwt.sign(user.data[0].id, process.env.JWT_SECRET)
+    const token = jwt.sign({ id: user.data[0].id }, process.env.JWT_SECRET,{expiresIn: '24h'})
+    res.cookie('token', token);
     return res.status(200).json({token, user});
 }
 
 export const getUserProfile = async (req, res) => {
     res.status(200).json({user: req.user});
+}
+
+export const logoutUser = async (req, res) => {
+    res.clearCookie('token');
+    const token = req.cookies.token || req.headers['authorization']?.split(' ')[1];
+    console.log("backlist token : ", token);
+    const sendtoken = await setTokenBlacklist(token);
+    if(!sendtoken){
+        return res.status(401).json({message:"Blacklisted token is not set"});
+    }
+
+    return res.status(200).json({message: "Logout successfully"});
 }

@@ -47,3 +47,35 @@ export const findUserById = async (id) => {
     }
 }
 
+export const setTokenBlacklist = async (token) => {
+    if(!token){
+        throw new Error("Token are required");
+    }
+    try{
+        const result = await pool.query(
+            'INSERT INTO blaklistedtokens (token, expires_at) VALUES ($1,$2)',
+            [token, new Date(Date.now() + 24 * 60 * 60 * 1000)]
+        );
+        return { code: 200, status:"success", message: "Get the data", data: result.rows };
+    }catch(err){
+        return {code:401, status:"error", message:err.message};
+    }
+}
+
+
+export const checkBlackListToken = async (token) => {
+    if(!token){
+        throw new Error("Token are required!");
+    }
+    try{
+        const result = await pool.query(
+            'SELECT * FROM blaklistedtokens WHERE token = $1',
+            [token]
+        );
+        return { code: 200, status:"success", message: "Get the data", data: result.rows };
+    }catch(err){
+        return {code:401, status:"error", message:err.message};
+    }
+}
+
+
