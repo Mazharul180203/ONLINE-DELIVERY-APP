@@ -1,0 +1,16 @@
+create table captaindetails
+(
+    id           serial primary key,
+    firstname    varchar(50)  not null,
+    lastname     int          not null,
+    password     varchar(100) not null,
+    email        varchar(30)  not null,
+    socketId     varchar(30)  not null,
+    status       varchar(30)  default 'inactive',
+    vehiclecolor varchar(50)  not null,
+    vehicleplate varchar(50)  not null,
+    capacity     int          not null,
+    vehicletype  varchar(20)  not null,
+    latitude     double precision,
+    longitude    double precision
+)

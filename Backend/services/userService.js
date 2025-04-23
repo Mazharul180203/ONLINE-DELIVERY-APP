@@ -6,6 +6,15 @@ export const  createUser =async({firstName, lastName, email, hashPassword})=>{
         throw new Error("All files are required");
     }
     try{
+        const isUserAlreadyExist = await pool.query(
+            'SELECT * FROM users WHERE email = $1',
+            [email]
+        );
+
+        if(isUserAlreadyExist.rows.length > 0){
+            throw new Error("User already exists");
+        }
+
         const result = await pool.query(
             'INSERT INTO users (firstname,lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING *;',
             [firstName, lastName, email, hashPassword]

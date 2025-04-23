@@ -12,7 +12,9 @@ app.use(cors());
 
 app.use(cookieParser());
 app.use(bodyParser.json())
+
 app.use('/users', router);
+app.use('/captains', router);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
