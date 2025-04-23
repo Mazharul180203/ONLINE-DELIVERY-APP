@@ -9,15 +9,18 @@ export const registerCaptain = async (req, res) => {
         return res.status(400).json({errors: errors.array()});
     }
 
-    const {firstName, lastName, email, password, vehicleplate, capacity, vehicleType} = req.body;
+    const {firstName, lastName, email, password, vehicleplate, capacity, vehicleType, vehiclecolor} = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const captain = await createCaptain({firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicleType});
+    const captain = await createCaptain({firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicleType, vehiclecolor});
+    if(captain.code === 401){
+        return res.status(captain.code).json({message: captain.message});
+    }
     console.log("captain : ",captain);
     const captainID = captain.data[0].id;
     console.log("captainid : ",captainID);
-    const token = jwt.sign(captainID, process.env.JWT_SECRET)
+    const token = jwt.sign(captainID, process.env.JWT_SECRET_CAPTAIN)
 
     return res.status(201).json({token, captain});
 

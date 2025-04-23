@@ -15,6 +15,9 @@ export const registerUser = async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10);
 
     const user = await createUser({firstName, lastName, email, hashPassword});
+    if(user.code === 401){
+        return res.status(user.code).json({message: user.message});
+    }
     console.log("user : ",user);
     const userID = user.data[0].id;
     console.log("userid : ",userID);
