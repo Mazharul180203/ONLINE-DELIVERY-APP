@@ -50,13 +50,14 @@ export const getUserProfile = async (req, res) => {
 }
 
 export const logoutUser = async (req, res) => {
-    res.clearCookie('token');
+
     const token = req.cookies.token || req.headers['authorization']?.split(' ')[1];
     console.log("backlist token : ", token);
     const sendtoken = await setTokenBlacklist(token);
     if(!sendtoken){
         return res.status(401).json({message:"Blacklisted token is not set"});
     }
+    res.clearCookie('token');
 
     return res.status(200).json({message: "Logout successfully"});
 }

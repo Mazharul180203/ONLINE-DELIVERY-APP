@@ -26,3 +26,63 @@ export const createCaptain = async ({firstName, lastName, email, hashPassword, v
         return { code: 401, status: "error", message: err.message };
     }
 };
+
+export const captainLogin = async ({ email, password }) => {
+    if (!email || !password) {
+        throw new Error("All fields are required");
+    }
+    try {
+        const result = await pool.query(
+            'SELECT * FROM captaindetails WHERE email = $1',
+            [email]
+        );
+        return { code: 200, status: "success", message: "Get the data", data: result.rows };
+    } catch (err) {
+        return { code: 401, status: "error", message: err.message };
+    }
+}
+
+export const findCaptainById = async (id) => {
+    if (!id) {
+        throw new Error("All fields are required");
+    }
+    try {
+        const result = await pool.query(
+            'SELECT * FROM captaindetails WHERE id = $1',
+            [id]
+        );
+        return { code: 200, status: "success", message: "Get the data", data: result.rows };
+    } catch (err) {
+        return { code: 401, status: "error", message: err.message };
+    }
+}
+
+export const checkCaptainBlacklistToken = async (token) => {
+    if (!token) {
+        throw new Error("All fields are required");
+    }
+    try {
+        const result = await pool.query(
+            'SELECT * FROM captainblacklisttoken WHERE token = $1',
+            [token]
+        );
+        return { code: 200, status: "success", message: "Get the data", data: result.rows };
+    } catch (err) {
+        return { code: 401, status: "error", message: err.message };
+    }
+}
+
+export const setCaptainTokenBlacklist = async (token) => {
+    if (!token) {
+        throw new Error("Token is required");
+    }
+    try {
+        const result = await pool.query(
+            'INSERT INTO blaklistedtokens (token, expires_at) VALUES ($1,$2)',
+            [token, new Date(Date.now() + 24 * 60 * 60 * 1000)]
+        );
+        return { code: 200, status: "success", message: "Token blacklisted successfully", data: result.rows };
+    } catch (err) {
+        return { code: 401, status: "error", message: err.message };
+    }
+}
