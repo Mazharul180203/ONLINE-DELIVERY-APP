@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import deliveryIcon from "../images/deliveryIcon.png";
+import userIcon from "../images/user.jpg";
 import {Link} from "react-router-dom";
 
 const UserLogin = () => {
@@ -20,7 +20,7 @@ const UserLogin = () => {
     return (
         <div className="flex flex-col justify-center items-center py-6 px-7">
             <div>
-                <img className="w-16 mb-10" src={deliveryIcon} alt="Delivery Icon"/>
+                <img className="w-16 mb-10" src={userIcon} alt="Delivery Icon"/>
                 <form onSubmit={submitHandeller} className="w-full">
                     <h3 className="text-xl font-medium mb-2">what's your Email</h3>
                     <input
@@ -52,7 +52,7 @@ const UserLogin = () => {
             </div>
            <Link
                to="/captainlogin"
-                className="bg-green-500 text-white font-semibold mt-40 px-4 py-2 rounded border w-full text-lg placeholder:text-base hover:bg-gray-700 text-center"
+                className="bg-green-500 text-white font-semibold mt-20 px-4 py-2 rounded border w-full text-lg placeholder:text-base hover:bg-gray-700 text-center"
                 type="submit">Sign in as Captain
             </Link>
         </div>
