@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import userIcon from "../images/user.jpg";
 import {Link} from "react-router-dom";
+import axios from "axios";
+import useUserStore from "../store/userStore";
+import {BASE_URL} from "../../config.js";
 
 const UserSignup = () => {
     const [captainDetails, setCaptainDetails] = useState({
@@ -8,20 +11,28 @@ const UserSignup = () => {
         "password": "",
         "firstName": "",
         "lastName": ""
-    })
+    });
 
-    const submitHandeller = (e) => {
+    const setUser = useUserStore((state) => state.setUser);
+
+    const submitHandeller = async (e) => {
         e.preventDefault();
         const user = {
             email: captainDetails.email,
             password: captainDetails.password,
             firstName: captainDetails.firstName,
             lastName: captainDetails.lastName
+        };
+        const res = await axios.post(`${BASE_URL}/user/signup`, user);
 
+        if (res.status === 201) {
+            const data = res.data;
+            setUser(data.firstName, data.lastName);
         }
-        setCaptainDetails({email: "", password: "", firstName: "", lastName: ""})
+        setCaptainDetails({ email: "", password: "", firstName: "", lastName: "" });
         console.log(user);
-    }
+    };
+
     return (
         <div className="flex flex-col justify-center items-center py-6 px-7">
             <div>
@@ -70,7 +81,7 @@ const UserSignup = () => {
                         placeholder="password"/>
                     <button
                         className="bg-black text-white font-semibold rounded mb-3 px-4 py-2 border w-full text-base placeholder:text-base"
-                        type="submit">Login
+                        type="submit">Create Account
                     </button>
                     <p className="text-center">Already Have an Account?<Link to="/login"
                                                                              className="text-blue-500"> Login

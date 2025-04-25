@@ -3,7 +3,7 @@ import deliveryIcon from '../images/deliveryIcon.png'; // Import the image
 import foodIcon from '../images/foodIcon.jpg';
 import {Link} from "react-router-dom";
 
-const Home = () => {
+const Start = () => {
     return (
         <div>
             <div
@@ -20,4 +20,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Start;
