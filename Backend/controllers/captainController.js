@@ -6,14 +6,15 @@ import {captainLogin, createCaptain, setCaptainTokenBlacklist} from "../services
 export const registerCaptain = async (req, res) => {
     const errors  =validationResult(req);
     if (!errors.isEmpty()) {
+        console.log("errors : ", errors.array());
         return res.status(400).json({errors: errors.array()});
     }
 
-    const {firstName, lastName, email, password, vehicleplate, capacity, vehicleType, vehiclecolor} = req.body;
+    const {firstName, lastName, email, password, vehicleplate, capacity, vehicletype, vehiclecolor} = req.body;
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const captain = await createCaptain({firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicleType, vehiclecolor});
+    const captain = await createCaptain({firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicletype, vehiclecolor});
     if(captain.code === 401){
         return res.status(captain.code).json({message: captain.message});
     }

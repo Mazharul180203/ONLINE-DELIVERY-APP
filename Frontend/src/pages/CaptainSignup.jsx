@@ -1,27 +1,52 @@
 import React, {useState} from 'react';
 import deliveryIcon from "../images/deliveryIcon.png";
 import {Link} from "react-router-dom";
+import axios from "axios";
+import {BASE_URL} from "../../config.js";
+import useCaptainStore from '../store/captainStore';
 
 const CaptainSignup = () => {
     const [captainDetails, setCaptainDetails] = useState({
         "email": "",
         "password": "",
         "firstName": "",
-        "lastName": ""
-    })
+        "lastName": "",
+        "vehiclecolor": "",
+        "vehicleplate": "",
+        "capacity": "",
+        "vehicletype": ""
+    });
 
-    const submitHandeller = (e) => {
+    const { setCaptainData } = useCaptainStore();
+
+    const submitHandeller = async (e) => {
         e.preventDefault();
-        const user = {
+        const captain = {
             email: captainDetails.email,
             password: captainDetails.password,
             firstName: captainDetails.firstName,
-            lastName: captainDetails.lastName
-
+            lastName: captainDetails.lastName,
+            vehiclecolor: captainDetails.vehiclecolor,
+            vehicleplate: captainDetails.vehicleplate,
+            capacity: captainDetails.capacity,
+            vehicletype: captainDetails.vehicletype
+        };
+        const res = await axios.post(`${BASE_URL}/captains/register`, captain);
+        const data = res.data;
+        if (data['captain'].code === 201) {
+            console.log("first name :", data['captain']['data'][0]['firstname']);
+            localStorage.setItem('token', data['token']);
+            setCaptainData(data.user);
+            window.location.href = '/captain-home';
         }
-        setCaptainDetails({email: "", password: "", firstName: "", lastName: ""})
+
+        setCaptainDetails({
+            email: "", password: "", firstName: "", lastName: "",
+            capacity: "", vehiclecolor: "", vehicleplate: "", vehicletype: ""
+        });
         console.log(user);
-    }
+    };
+
     return (
         <div className="flex flex-col justify-center items-center py-6 px-7">
             <div>
@@ -68,9 +93,49 @@ const CaptainSignup = () => {
                             {...captainDetails, password: e.target.value}
                         )}
                         placeholder="password"/>
+                    <div className="flex gap-4">
+                        <input
+                            className="bg-gray-200 mb-5 rounded px-4 py-2 border text-base placeholder:text-base w-full"
+                            required
+                            type="text"
+                            value={captainDetails.vehiclecolor}
+                            onChange={(e) => setCaptainDetails(
+                                {...captainDetails, vehiclecolor: e.target.value})
+                            }
+                            placeholder="Vehicle Color"/>
+                        <input
+                            className="bg-gray-200 mb-5 rounded px-4 py-2 border text-base placeholder:text-base w-full"
+                            required
+                            type="text"
+                            value={captainDetails.vehicleplate}
+                            onChange={(e) => setCaptainDetails(
+                                {...captainDetails, vehicleplate: e.target.value})
+                            }
+                            placeholder="Vehicle plate"/>
+                    </div>
+                    <div className="flex gap-4">
+                        <input
+                            className="bg-gray-200 mb-5 rounded px-4 py-2 border text-base placeholder:text-base w-full"
+                            required
+                            type="text"
+                            value={captainDetails.capacity}
+                            onChange={(e) => setCaptainDetails(
+                                {...captainDetails, capacity: e.target.value})
+                            }
+                            placeholder="Capacity"/>
+                        <input
+                            className="bg-gray-200 mb-5 rounded px-4 py-2 border text-base placeholder:text-base w-full"
+                            required
+                            type="text"
+                            value={captainDetails.vehicletype}
+                            onChange={(e) => setCaptainDetails(
+                                {...captainDetails, vehicletype: e.target.value})
+                            }
+                            placeholder="Vehicle Type"/>
+                    </div>
                     <button
                         className="bg-black text-white font-semibold rounded mb-3 px-4 py-2 border w-full text-base placeholder:text-base"
-                        type="submit">Login
+                        type="submit">Create Captain Account
                     </button>
                     <p className="text-center">Already Have an Account?<Link to="/captainlogin"
                                                                              className="text-blue-500"> Login
@@ -78,7 +143,8 @@ const CaptainSignup = () => {
                 </form>
             </div>
             <div className="mt-40">
-                <p className="text-[10px] leading-3">This site is protected by reCAPTCHA and the <span className="underline">Google Service Policies</span>
+                <p className="text-[10px] leading-3">This site is protected by reCAPTCHA and the <span
+                    className="underline">Google Service Policies</span>
                     and <span className="underline">Terms and Policies</span>></p>
             </div>
         </div>
@@ -86,3 +152,4 @@ const CaptainSignup = () => {
 };
 
 export default CaptainSignup;
+

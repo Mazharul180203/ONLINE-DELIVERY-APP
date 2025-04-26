@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import deliveryIcon from "../images/deliveryIcon.png";
 import {Link} from "react-router-dom";
+import axios from "axios";
+import {BASE_URL} from "../../config.js";
 
 const Captainlogin = () => {
     const [captainDetails, setCaptainDetails] = useState({
@@ -8,12 +10,20 @@ const Captainlogin = () => {
         "password": ""
     })
 
-    const submitHandeller = (e) => {
+    const submitHandeller = async (e) => {
         e.preventDefault();
-        const user = {
+        const captain = {
             email: captainDetails.email,
             password: captainDetails.password
         }
+        const res = await axios.post(`${BASE_URL}/captains/login`, captain);
+        const data = res.data;
+        if (data['captain'].code === 200) {
+            console.log("first name :", data['captain']['data'][0]['firstname']);
+            localStorage.setItem('token', data['token']);
+            window.location.href = '/captain-home';
+        }
+
         setCaptainDetails({email: "", password: ""})
         console.log(user);
     }

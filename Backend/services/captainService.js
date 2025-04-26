@@ -1,8 +1,8 @@
 import {pool} from "../db.js";
 
-export const createCaptain = async ({firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicleType, vehiclecolor}) => {
-    console.log(firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicleType, vehiclecolor);
-    if (!firstName || !lastName || !hashPassword || !email || !vehicleplate || !capacity || !vehicleType || !vehiclecolor) {
+export const createCaptain = async ({firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicletype, vehiclecolor}) => {
+    console.log(firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicletype, vehiclecolor);
+    if (!firstName || !lastName || !hashPassword || !email || !vehicleplate || !capacity || !vehicletype || !vehiclecolor) {
         throw new Error("All fields are required");
     }
     try {
@@ -16,8 +16,8 @@ export const createCaptain = async ({firstName, lastName, email, hashPassword, v
         }
 
         const result = await pool.query(
-            'INSERT INTO public.captaindetails (firstName, lastName, email, password, vehicleplate, capacity, vehicleType, vehiclecolor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;',
-            [firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicleType, vehiclecolor]
+            'INSERT INTO public.captaindetails (firstName, lastName, email, password, vehicleplate, capacity, vehicletype, vehiclecolor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;',
+            [firstName, lastName, email, hashPassword, vehicleplate, capacity, vehicletype, vehiclecolor]
         );
         console.log("result :", result.rows);
         return { code: 201, status: "success", message: "Successfully Registered", data: result.rows };
