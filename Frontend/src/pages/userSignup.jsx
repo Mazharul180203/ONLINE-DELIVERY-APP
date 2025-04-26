@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import userIcon from "../images/user.jpg";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import useUserStore from "../store/userStore";
 import {BASE_URL} from "../../config.js";
 
 const UserSignup = () => {
+    const navigate = useNavigate();
     const [captainDetails, setCaptainDetails] = useState({
         "email": "",
         "password": "",
@@ -23,20 +24,22 @@ const UserSignup = () => {
             firstName: captainDetails.firstName,
             lastName: captainDetails.lastName
         };
-        const res = await axios.post(`${BASE_URL}/user/signup`, user);
+        const res = await axios.post(`${BASE_URL}/users/register`, user);
 
         if (res.status === 201) {
             const data = res.data;
-            setUser(data.firstName, data.lastName);
+            console.log("first name :",data['user']['data'][0]['firstname']);
+            setUser(data['user']['data'][0]['firstname'], data['user']['data'][0]['lastname']);
+            navigate('/home')
         }
         setCaptainDetails({ email: "", password: "", firstName: "", lastName: "" });
-        console.log(user);
+
     };
 
     return (
         <div className="flex flex-col justify-center items-center py-6 px-7">
             <div>
-                <img className="w-16 mb-10" src={userIcon} alt="Delivery Icon"/>
+                <img className="w-12 mb-6" src={userIcon} alt="User Icon"/>
                 <form onSubmit={submitHandeller} className="w-full">
                     <h3 className="text-base font-medium mb-2">What's your Name</h3>
                     <div className="flex gap-4">
@@ -91,7 +94,7 @@ const UserSignup = () => {
             <div className="mt-40">
                 <p className="text-[10px] leading-3">This site is protected by reCAPTCHA and the <span
                     className="underline">Google Service Policies</span>
-                    and <span className="underline">Terms and Policies</span>></p>
+                    and <span className="underline">Terms and Policies</span></p>
             </div>
         </div>
     );

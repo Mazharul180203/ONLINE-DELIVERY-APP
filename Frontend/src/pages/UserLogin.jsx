@@ -1,18 +1,29 @@
 import React, {useState} from 'react';
 import userIcon from "../images/user.jpg";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
+import {BASE_URL} from "../../config.js";
 
 const UserLogin = () => {
+    const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState({
       "email": "",
         "password": ""
     })
 
-    const submitHandeller = (e) => {
+    const submitHandeller = async (e) => {
         e.preventDefault();
         const user = {
             email: userDetails.email,
             password: userDetails.password
+        }
+
+        const res = await axios.post(`${BASE_URL}/users/login`, user);
+        if (res.status === 200) {
+            const data = res.data;
+            console.log("first name :",data);
+            localStorage.setItem('token', data['token']);
+            navigate('/home')
         }
         setUserDetails({email: "", password: ""})
         console.log(user);
@@ -20,7 +31,7 @@ const UserLogin = () => {
     return (
         <div className="flex flex-col justify-center items-center py-6 px-7">
             <div>
-                <img className="w-16 mb-10" src={userIcon} alt="Delivery Icon"/>
+                <img className="w-12 mb-6" src={userIcon} alt="Delivery Icon"/>
                 <form onSubmit={submitHandeller} className="w-full">
                     <h3 className="text-xl font-medium mb-2">what's your Email</h3>
                     <input
