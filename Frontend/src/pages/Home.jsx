@@ -1,6 +1,7 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState} from 'react';
 import deliveryIcon from "../images/deliveryIcon.png";
 import mapIcon from "../images/map_images.png";
+import carIcon from "../images/car.webp";
 import {useGSAP} from "@gsap/react";
 import {gsap} from "gsap";
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -28,7 +29,7 @@ useGSAP(() => {
 }, [panelOpen]);
 
     return (
-        <div className="h-screen relative">
+        <div className="h-screen relative overflow-hidden">
             <img className="w-16 absolute left-5 top-5" src={deliveryIcon} alt="delivery icon"/>
             <div className="h-screen w-screen">
                 <img className="w-full h-full object-cover" src={mapIcon} alt="map Icon"/>
@@ -64,6 +65,40 @@ useGSAP(() => {
                 </div>
                 <div ref={panelRef} className="h-0 bg-white ">
                     <LocationSearchPanel/>
+                </div>
+                <div className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-6">
+                    <h3 className="text-2xl font-semibold mb-5">Choose the Vehicle</h3>
+                   <div className="flex border-2 active:border-black rounded-xl bg-gray-100 mb-2 w-full p-3 items-center justify-between">
+                        <img className="h-12" src={carIcon} alt="car image"/>
+                        <div className="w-1/2">
+                            <h4 className="font-medium text-lg">UbarX <span><i
+                                className="fa-solid fa-user"></i>4</span></h4>
+                            <h5 className="font-medium text-lg">5 min away</h5>
+                            <p className="font-normal text-xs text-gray-600">Luxury rides for special occasions</p>
+                        </div>
+                        <h2 className="text-xl font-semibold">$35.50</h2>
+                    </div>
+                    <div className="flex border-2 rounded-xl active:border-black bg-gray-100 mb-2 w-full p-3 items-center justify-between">
+                        <img className="h-12" src={carIcon} alt="car image"/>
+                        <div className="w-1/2">
+                            <h4 className="font-medium text-lg">UbarXL <span><i
+                                className="fa-solid fa-user"></i>6</span></h4>
+                            <h5 className="font-medium text-lg">3 min away</h5>
+                            <p className="font-normal text-xs text-gray-600">Spacious rides for groups</p>
+                        </div>
+                        <h2 className="text-xl font-semibold">$28.75</h2>
+                    </div>
+                    <div className="flex border-2 rounded-xl active:border-black bg-gray-100 mb-2 w-full p-3 items-center justify-between">
+                        <img className="h-12" src={carIcon} alt="car image"/>
+                        <div className="w-1/2">
+                            <h4 className="font-medium text-lg">UbarEco <span><i
+                                className="fa-solid fa-user"></i>4</span></h4>
+                            <h5 className="font-medium text-lg">1 min away</h5>
+                            <p className="font-normal text-xs text-gray-600">Eco-friendly, budget rides</p>
+                        </div>
+                        <h2 className="text-xl font-semibold">$15.20</h2>
+                    </div>
+
                 </div>
             </div>
         </div>
