@@ -12,3 +12,5 @@ const ConfirmRide = () => {
 };
 
 export default ConfirmRide;
+
+//5:24
