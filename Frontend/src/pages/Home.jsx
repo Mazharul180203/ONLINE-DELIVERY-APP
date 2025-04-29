@@ -5,7 +5,9 @@ import carIcon from "../images/car.webp";
 import {useGSAP} from "@gsap/react";
 import {gsap} from "gsap";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import LocationSearchPanel from "./locationSearchPanel.jsx";
+import LocationSearchPanel from "../../components/locationSearchPanel.jsx";
+import VehiclePanel from "../../components/VehiclePanel.jsx";
+import ConfirmRide from "../../components/ConfirmRide.jsx";
 
 const Home = () => {
     const [panelOpen, setPanelOpen] = useState(false);
@@ -13,6 +15,8 @@ const Home = () => {
     const panelCloseref = useRef(null);
     const [vehiclePanel, setVehiclePanel] = useState(false);
     const vehiclePanelRef = useRef(null);
+    const confirmRidePanelRef = useRef(null);
+    const [confirmRidePanel, setConfirmRidePanel] = useState(false);
     const [info, setInfo] = useState({
         pickup: "",
         destination: ""
@@ -43,6 +47,19 @@ useGSAP(() => {
     }
 },[vehiclePanel])
 
+useGSAP(() => {
+    if(confirmRidePanel){
+
+        gsap.to(confirmRidePanelRef.current, {
+            transform:'translateY(0)',
+        })
+    }else{
+        gsap.to(confirmRidePanelRef.current, {
+            transform:'translateY(100%)',
+        })
+    }
+},[confirmRidePanel])
+
     return (
         <div className="h-screen relative overflow-hidden">
             <img className="w-16 absolute left-5 top-5" src={deliveryIcon} alt="delivery icon"/>
@@ -51,7 +68,7 @@ useGSAP(() => {
             </div>
             <div className="bg-white h-screen flex flex-col justify-end absolute top-0 w-full">
                 <div className="h-[30%] p-5 bg-white">
-                    <h5 ref={panelCloseref} onClick={()=>
+                    <h5 ref={panelCloseref} onClick={() =>
                         setPanelOpen(false)} className="absolute opacity-0 right-2 top -2 text-2xl">
                         <i className="fa-solid fa-angle-down"></i>
                     </h5>
@@ -82,41 +99,10 @@ useGSAP(() => {
                     <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel}/>
                 </div>
                 <div ref={vehiclePanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
-                    <h5 onClick={()=>{
-                        setVehiclePanel(false);
-                    }} className="p-3 text-center absolute w-[93%] top-0"><i className="text-3xl fa-solid text-gray-500 fa-angle-down"></i></h5>
-                    <h3 className="text-2xl font-semibold mb-5">Choose the Vehicle</h3>
-                    <div className="flex border-2 active:border-black rounded-xl bg-gray-100 mb-2 w-full p-3 items-center justify-between">
-                        <img className="h-12" src={carIcon} alt="car image"/>
-                        <div className="w-1/2">
-                            <h4 className="font-medium text-lg">UbarX <span><i
-                                className="fa-solid fa-user"></i>4</span></h4>
-                            <h5 className="font-medium text-lg">5 min away</h5>
-                            <p className="font-normal text-xs text-gray-600">Luxury rides for special occasions</p>
-                        </div>
-                        <h2 className="text-xl font-semibold">$35.50</h2>
-                    </div>
-                    <div className="flex border-2 rounded-xl active:border-black bg-gray-100 mb-2 w-full p-3 items-center justify-between">
-                        <img className="h-12" src={carIcon} alt="car image"/>
-                        <div className="w-1/2">
-                            <h4 className="font-medium text-lg">UbarXL <span><i
-                                className="fa-solid fa-user"></i>6</span></h4>
-                            <h5 className="font-medium text-lg">3 min away</h5>
-                            <p className="font-normal text-xs text-gray-600">Spacious rides for groups</p>
-                        </div>
-                        <h2 className="text-xl font-semibold">$28.75</h2>
-                    </div>
-                    <div className="flex border-2 rounded-xl active:border-black bg-gray-100 mb-2 w-full p-3 items-center justify-between">
-                        <img className="h-12" src={carIcon} alt="car image"/>
-                        <div className="w-1/2">
-                            <h4 className="font-medium text-lg">UbarEco <span><i
-                                className="fa-solid fa-user"></i>4</span></h4>
-                            <h5 className="font-medium text-lg">1 min away</h5>
-                            <p className="font-normal text-xs text-gray-600">Eco-friendly, budget rides</p>
-                        </div>
-                        <h2 className="text-xl font-semibold">$15.20</h2>
-                    </div>
-
+                    <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel}/>
+                </div>
+                <div ref={confirmRidePanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
+                    <ConfirmRide />
                 </div>
             </div>
         </div>
