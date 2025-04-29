@@ -11,6 +11,8 @@ const Home = () => {
     const [panelOpen, setPanelOpen] = useState(false);
     const panelRef = useRef(null);
     const panelCloseref = useRef(null);
+    const [vehiclePanel, setVehiclePanel] = useState(false);
+    const vehiclePanelRef = useRef(null);
     const [info, setInfo] = useState({
         pickup: "",
         destination: ""
@@ -27,6 +29,19 @@ useGSAP(() => {
         opacity: panelOpen ? 1 : 0,
     });
 }, [panelOpen]);
+
+useGSAP(() => {
+    if(vehiclePanel){
+
+        gsap.to(vehiclePanelRef.current, {
+            transform:'translateY(0)',
+        })
+    }else{
+        gsap.to(vehiclePanelRef.current, {
+            transform:'translateY(100%)',
+        })
+    }
+},[vehiclePanel])
 
     return (
         <div className="h-screen relative overflow-hidden">
@@ -64,11 +79,14 @@ useGSAP(() => {
                     </form>
                 </div>
                 <div ref={panelRef} className="h-0 bg-white ">
-                    <LocationSearchPanel/>
+                    <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel}/>
                 </div>
-                <div className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-6">
+                <div ref={vehiclePanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
+                    <h5 onClick={()=>{
+                        setVehiclePanel(false);
+                    }} className="p-3 text-center absolute w-[93%] top-0"><i className="text-3xl fa-solid text-gray-500 fa-angle-down"></i></h5>
                     <h3 className="text-2xl font-semibold mb-5">Choose the Vehicle</h3>
-                   <div className="flex border-2 active:border-black rounded-xl bg-gray-100 mb-2 w-full p-3 items-center justify-between">
+                    <div className="flex border-2 active:border-black rounded-xl bg-gray-100 mb-2 w-full p-3 items-center justify-between">
                         <img className="h-12" src={carIcon} alt="car image"/>
                         <div className="w-1/2">
                             <h4 className="font-medium text-lg">UbarX <span><i
