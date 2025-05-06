@@ -1,15 +1,16 @@
-import React from 'react';
-
-const WaitingForDrivers = (props) => {
+import React from 'react'
+import carIcon from "../images/car.webp";
+const ConfirmRide = (props) => {
     return (
         <div>
             <h5 onClick={() => {
-                props.waitingforDriver(false);
+                props.setConfirmRidePanel(false);
             }} className="p-3 text-center absolute w-[93%] top-0"><i
                 className="text-3xl fa-solid text-gray-500 fa-angle-down"></i></h5>
+            <h3 className="text-2xl font-semibold mb-5">Confirm your Ride</h3>
             <div className="flex justify-center flex-col items-center">
-
-                <div className="w-full mt-5">
+                {/*<img src={carIcon} alt="car image"/>*/}
+               <div className="w-full mt-5">
                     <div className="flex items-center p-3 border-b-2">
                         <i className="fa-solid fa-location-dot mr-4"></i>
                         <div>
@@ -32,9 +33,15 @@ const WaitingForDrivers = (props) => {
                         </div>
                     </div>
                 </div>
+                <button onClick={()=>{
+                    props.setVehicleFound(true);
+                    props.setConfirmRidePanel(false);
+                }} style={{backgroundColor: 'green'}}
+                        className="w-full text-black font-semibold p-2 rounded">Confirm
+                </button>
             </div>
         </div>
     );
 };
 
-export default WaitingForDrivers;
+export default ConfirmRide

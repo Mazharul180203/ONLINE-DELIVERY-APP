@@ -5,11 +5,11 @@ import carIcon from "../images/car.webp";
 import {useGSAP} from "@gsap/react";
 import {gsap} from "gsap";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import LocationSearchPanel from "../../components/locationSearchPanel.jsx";
-import VehiclePanel from "../../components/VehiclePanel.jsx";
-import ConfirmRide from "../../components/ConfirmRide.jsx";
-import LookingForDriver from "../../components/LookingForDriver.jsx";
-import WaitingForDrivers from "../../components/WaitingForDrivers.jsx";
+import LocationSearchPanel from "../components/locationSearchPanel.jsx";
+import VehiclePanel from "../components/VehiclePanel.jsx";
+import ConfirmRide from "../components/ConfirmRide.jsx";
+import LookingForDriver from "../components/LookingForDriver.jsx";
+import WaitingForDrivers from "../components/WaitingForDrivers.jsx";
 
 const Home = () => {
     const [panelOpen, setPanelOpen] = useState(false);

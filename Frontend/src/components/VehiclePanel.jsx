@@ -1,5 +1,5 @@
 import React from 'react';
-import carIcon from "../src/images/car.webp";
+import carIcon from "../images/car.webp";
 
 const VehiclePanel = (props) => {
     return (
