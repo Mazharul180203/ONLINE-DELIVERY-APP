@@ -139,7 +139,7 @@ useGSAP(() => {
                 <div ref={vehicleFoundRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
                     <LookingForDriver setVehicleFound={setVehicleFound}/>
                 </div>
-                <div ref={waitingForDriverRef} className="fixed w-full z-10 bottom-0 bg-white px-3 py-10">
+                <div ref={waitingForDriverRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
                     <WaitingForDrivers waitingforDriver={waitingforDriver}/>
                 </div>
             </div>
