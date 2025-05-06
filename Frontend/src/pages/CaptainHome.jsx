@@ -1,43 +1,56 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import mapIcon from "../images/map_images.png";
+import CaptainDetails from "../components/CaptainDetails.jsx";
+import VehiclePanel from "../components/VehiclePanel.jsx";
+import RidePopUp from "../components/RidePopUp.jsx";
+import {useGSAP} from "@gsap/react";
+import {gsap} from "gsap";
+import ConfirmRidePopUp from "../components/ConfirmRidePopUp.jsx";
 
 const CaptainHome = () => {
+    const [ridePopUpPanel, setRidePopUpPanel] = useState(true);
+    const [confirmRidePopUpPanel, setConfirmRidePopUpPanel] = useState(false);
+    const ridePopUpPanelRef = useRef(null);
+    const confirmRidePopUpPanelRef = useRef(null);
+    useGSAP(() => {
+        if(ridePopUpPanel){
+
+            gsap.to(ridePopUpPanelRef.current, {
+                transform:'translateY(0)',
+            })
+        }else{
+            gsap.to(ridePopUpPanelRef.current, {
+                transform:'translateY(100%)',
+            })
+        }
+    },[ridePopUpPanel])
+    useGSAP(() => {
+        if(confirmRidePopUpPanel){
+
+            gsap.to(confirmRidePopUpPanelRef.current, {
+                transform:'translateY(0)',
+            })
+        }else{
+            gsap.to(confirmRidePopUpPanelRef.current, {
+                transform:'translateY(100%)',
+            })
+        }
+    },[confirmRidePopUpPanel])
     return (
         <div className='h-screen'>
-
             <div className="h-3/5">
                 <img className="h-full w-full object-cover" src={mapIcon} alt=""/>
             </div>
             <div className="h-2/5 p-6">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center justify-start gap-3">
-                            <img className="h-10 w-10 rounded-full object-cover" src="https://t4.ftcdn.net/jpg/02/14/74/61/360_F_214746128_31JkeaP6rU0NzzzdFC4khGkmqc8noe6h.jpg" alt=""/>
-                            <h4 className="text-lg font-medium">Mazharul Islam</h4>
-                        </div>
-                        <div>
-                            <h4 className="text-xl font-semibold">$234.55</h4>
-                            <p className="text-sm  text-gray-600">Earned</p>
-                        </div>
-                    </div>
-                    <div className="flex p-3 mt-6 justify-center bg-gray-100 gap-5 itms-center mt-5">
-                        <div className="text-center">
-                            <i className="text-3xl font-thin fa-solid fa-clock"></i>
-                            <h5 className="text-lg font-medium">10.2</h5>
-                            <p className="text-sm text-gra-600">Hours Online</p>
-                        </div>
-                        <div className="text-center">
-                        <i className="text-3xl font-thin fa-solid fa-gauge-simple-high"></i>
-                            <h5 className="text-lg font-medium">10.2</h5>
-                            <p className="text-sm text-gra-600">Hours Online</p>
-                        </div>
-                        <div className="text-center">
-                        <i className="text-3xl font-thin fa-solid fa-note-sticky"></i>
-                            <h5 className="text-lg font-medium">10.2</h5>
-                            <p className="text-sm text-gra-600">Hours Online</p>
-                        </div>
-                    </div>
-                </div>
+                <CaptainDetails/>
             </div>
+            <div ref={ridePopUpPanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
+                <RidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePopUpPanel={setConfirmRidePopUpPanel}/>
+            </div>
+            <div ref={confirmRidePopUpPanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
+                <ConfirmRidePopUp setConfirmRidePopUpPanel={setConfirmRidePopUpPanel} setRidePopUpPanel={setRidePopUpPanel}/>
+            </div>
+        </div>
     );
 };
 
