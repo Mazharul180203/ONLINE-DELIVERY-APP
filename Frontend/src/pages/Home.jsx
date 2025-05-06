@@ -8,6 +8,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import LocationSearchPanel from "../../components/locationSearchPanel.jsx";
 import VehiclePanel from "../../components/VehiclePanel.jsx";
 import ConfirmRide from "../../components/ConfirmRide.jsx";
+import LookingForDriver from "../../components/LookingForDriver.jsx";
+import WaitingForDrivers from "../../components/WaitingForDrivers.jsx";
 
 const Home = () => {
     const [panelOpen, setPanelOpen] = useState(false);
@@ -15,8 +17,12 @@ const Home = () => {
     const panelCloseref = useRef(null);
     const [vehiclePanel, setVehiclePanel] = useState(false);
     const vehiclePanelRef = useRef(null);
+    const vehicleFoundRef = useRef(null);
+    const waitingForDriverRef = useRef(null);
     const confirmRidePanelRef = useRef(null);
     const [confirmRidePanel, setConfirmRidePanel] = useState(false);
+    const [vehicleFound, setVehicleFound] = useState(false);
+    const [waitingforDriver, setWaitingforDriver] = useState(false);
     const [info, setInfo] = useState({
         pickup: "",
         destination: ""
@@ -48,6 +54,31 @@ useGSAP(() => {
 },[vehiclePanel])
 
 useGSAP(() => {
+    if(vehicleFound){
+
+        gsap.to(vehicleFoundRef.current, {
+            transform:'translateY(0)',
+        })
+    }else{
+        gsap.to(vehicleFoundRef.current, {
+            transform:'translateY(100%)',
+        })
+    }
+},[vehicleFound])
+    useGSAP(() => {
+        if(waitingforDriver){
+
+            gsap.to(waitingForDriverRef.current, {
+                transform:'translateY(0)',
+            })
+        }else{
+            gsap.to(waitingForDriverRef.current, {
+                transform:'translateY(100%)',
+            })
+        }
+    },[waitingforDriver])
+
+useGSAP(() => {
     if(confirmRidePanel){
 
         gsap.to(confirmRidePanelRef.current, {
@@ -59,7 +90,6 @@ useGSAP(() => {
         })
     }
 },[confirmRidePanel])
-
     return (
         <div className="h-screen relative overflow-hidden">
             <img className="w-16 absolute left-5 top-5" src={deliveryIcon} alt="delivery icon"/>
@@ -102,8 +132,15 @@ useGSAP(() => {
                 <div ref={vehiclePanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
                     <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel}/>
                 </div>
-                <div ref={confirmRidePanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
-                    <ConfirmRide />
+                <div ref={confirmRidePanelRef}
+                     className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
+                    <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound}/>
+                </div>
+                <div ref={vehicleFoundRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
+                    <LookingForDriver setVehicleFound={setVehicleFound}/>
+                </div>
+                <div ref={waitingForDriverRef} className="fixed w-full z-10 bottom-0 bg-white px-3 py-10">
+                    <WaitingForDrivers waitingforDriver={waitingforDriver}/>
                 </div>
             </div>
         </div>
