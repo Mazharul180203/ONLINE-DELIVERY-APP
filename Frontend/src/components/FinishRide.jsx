@@ -44,9 +44,9 @@ const FinishRide = (props) => {
                     </div>
                 </div>
 
-                <div className='mt-6 w-full'>
-                    <Link to='/captain-riding'
-                          className='w-full mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>Complete Ride
+                <div className='mt-10 w-full'>
+                    <Link to='/captain-home'
+                          className='w-full mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>Finish Ride
                     </Link>
                 </div>
             </div>
