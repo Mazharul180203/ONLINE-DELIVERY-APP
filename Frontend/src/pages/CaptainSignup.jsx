@@ -145,7 +145,7 @@ const CaptainSignup = () => {
             <div className="mt-40">
                 <p className="text-[10px] leading-3">This site is protected by reCAPTCHA and the <span
                     className="underline">Google Service Policies</span>
-                    and <span className="underline">Terms and Policies</span>></p>
+                    and <span className="underline">Terms and Policies</span></p>
             </div>
         </div>
     );
