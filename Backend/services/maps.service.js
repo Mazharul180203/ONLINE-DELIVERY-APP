@@ -1,9 +1,8 @@
 import axios from "axios";
+import {API_KEY} from "../config.js";
 
 export const getAddressCoordinates = async (address) => {
-    const apiKey = 'ec79c18d342a417f9f3b0b0b50eaa0bb';
-    console.log("apiKey:", apiKey, "address:", address);
-
+    const apiKey =API_KEY;
     try {
         const response = await axios.get('https://api.opencagedata.com/geocode/v1/json', {
             params: {
