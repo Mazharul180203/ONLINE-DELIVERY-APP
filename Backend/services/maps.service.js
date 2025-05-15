@@ -12,7 +12,7 @@ export const getAddressCoordinates = async (address) => {
                 language: 'en',
             },
         });
-        console.dir(response.data, { depth: null });
+        //console.dir(response.data, { depth: null });
         if (response.data && response.data.status.code === 200 && response.data.results.length > 0) {
             const location = response.data.results[0].geometry;
             return {

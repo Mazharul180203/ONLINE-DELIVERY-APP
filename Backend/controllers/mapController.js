@@ -20,3 +20,6 @@ export const getCoordinates = async (req, res) => {
         return res.status(404).json({ message: "Coordinate not found" });
     }
 }
+export const getDistanceTime = async (req, res) => {
+
+}
