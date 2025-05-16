@@ -148,3 +148,74 @@ export const getDistance = async (origin, destination) => {
         throw new Error(`Failed to calculate distance: ${error.message}`);
     }
 };
+
+export const getAutoCompleteSuggestions = async (input,maxRetries = 3, retryDelay = 2000) => {
+    if (!input || typeof input !== 'string' || input.trim().length < 2) {
+        throw new Error('Query must be a string with at least 2 characters');
+    }
+    if (!OpenRoutesServiceKey) {
+        throw new Error('API key is required');
+    }
+
+    let attempt = 1;
+
+    while (attempt <= maxRetries) {
+        try {
+            const response = await axios.get('https://api.openrouteservice.org/geocode/autocomplete', {
+                params: {
+                    api_key: OpenRoutesServiceKey,
+                    text: input.trim(),
+                    'boundary.country': 'BD', // Restrict to Bangladesh
+                    size: 10, // Number of suggestions
+                    layers: 'locality' // Single layer for place names (e.g., Mirpur)
+                },
+                headers: {
+                    'Accept': 'application/json'
+                },
+                timeout: 5000
+            });
+
+            const suggestions = response.data.features.map((feature) => ({
+                name: feature.properties.label, // Full address or place name
+                coordinates: {
+                    lng: feature.geometry.coordinates[0], // Longitude
+                    lat: feature.geometry.coordinates[1]  // Latitude
+                },
+                confidence: feature.properties.confidence // Relevance score
+            }));
+
+            return suggestions;
+        } catch (error) {
+            if (error.response) {
+                console.error('Autocomplete API Error:', {
+                    status: error.response.status,
+                    data: error.response.data,
+                    headers: error.response.headers
+                });
+
+                if (error.response.status === 503) {
+                    console.warn(`Geocoding service unavailable. Attempt ${attempt} of ${maxRetries}`);
+                    if (attempt < maxRetries) {
+                        await new Promise(resolve => setTimeout(resolve, retryDelay));
+                        attempt++;
+                        continue;
+                    } else {
+                        throw new Error('Geocoding service is temporarily unavailable after maximum retries');
+                    }
+                } else if (error.response.status === 400) {
+                    const errorMessage = error.response.data?.geocoding?.errors?.join('; ') || 'Invalid request: Check query or API parameters';
+                    throw new Error(`Bad request: ${errorMessage}`);
+                } else if (error.response.status === 429) {
+                    throw new Error('Rate limit exceeded for geocoding');
+                } else if (error.response.status === 401) {
+                    throw new Error('Invalid or unauthorized API key');
+                }
+            } else if (error.request) {
+                console.error('No response received:', error.request);
+            } else {
+                console.error('Request setup error:', error.message);
+            }
+            throw new Error(`Failed to fetch autocomplete suggestions: ${error.message}`);
+        }
+    }
+};

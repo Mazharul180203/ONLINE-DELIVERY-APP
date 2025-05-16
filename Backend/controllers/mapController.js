@@ -40,3 +40,22 @@ export const getDistanceTime = async (req, res) => {
         return res.status(404).json({ message: "Distance not found" });
     }
 }
+export const getAutoCompleteSuggestions = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const { input } = req.query;
+    console.log("input : ", input);
+    if (!input) {
+        return res.status(400).json({ message: "Input is required" });
+    }
+    try {
+        const suggestions = await mapService.getAutoCompleteSuggestions(input);
+        console.log("suggestions : ", suggestions);
+        return res.status(200).json(suggestions);
+    } catch (error) {
+        console.error("Error fetching suggestions:", error);
+        return res.status(404).json({ message: "Suggestions not found" });
+    }
+}
