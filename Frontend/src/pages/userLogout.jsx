@@ -1,12 +1,11 @@
 import React from 'react';
 import axios from "axios";
-import {BASE_URL} from "../../config.js";
 
 const UserLogout = () => {
 
     const token = localStorage.getItem('token');
 
-   const response =   axios.post(`${BASE_URL}/users/logout`, {}, {
+   const response =   axios.post(`${import.meta.env.VITE_BASE_URL}/users/logout`, {}, {
        headers: {
            authorization: `Bearer ${token}`
        }

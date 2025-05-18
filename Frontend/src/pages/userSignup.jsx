@@ -3,7 +3,6 @@ import userIcon from "../images/user.jpg";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import useUserStore from "../store/userStore";
-import {BASE_URL} from "../../config.js";
 
 const UserSignup = () => {
     const navigate = useNavigate();
@@ -24,7 +23,7 @@ const UserSignup = () => {
             firstName: captainDetails.firstName,
             lastName: captainDetails.lastName
         };
-        const res = await axios.post(`${BASE_URL}/users/register`, user);
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, user);
 
         if (res.status === 201) {
             const data = res.data;

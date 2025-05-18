@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import deliveryIcon from "../images/deliveryIcon.png";
 import {Link} from "react-router-dom";
 import axios from "axios";
-import {BASE_URL} from "../../config.js";
 import useCaptainStore from '../store/captainStore';
 
 const CaptainSignup = () => {
@@ -31,7 +30,7 @@ const CaptainSignup = () => {
             capacity: captainDetails.capacity,
             vehicletype: captainDetails.vehicletype
         };
-        const res = await axios.post(`${BASE_URL}/captains/register`, captain);
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captain);
         const data = res.data;
         if (data['captain'].code === 201) {
             console.log("first name :", data['captain']['data'][0]['firstname']);

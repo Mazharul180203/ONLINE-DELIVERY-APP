@@ -31,8 +31,8 @@ export const getAddressCoordinates = async (address) => {
 }
 
 export const getDistanceDirections = async (start, end, maxRetries = 3, retryDelay = 2000) => {
-    // Validate coordinates
-    const OpenRoutesServiceKey = process.env.REACT_APP_OPENROUTESERVICE_API_KEY;
+    const OpenRoutesServiceKey = process.env.REACT_APP_OPENROUTESERVICE_KEY;
+    console.log("OpenRoutesServiceKey", OpenRoutesServiceKey)
     if (!Array.isArray(start) || !Array.isArray(end) || start.length !== 2 || end.length !== 2) {
         throw new Error('Start and end must be arrays of [longitude, latitude]');
     }
@@ -140,7 +140,6 @@ export const getDistance = async (origin, destination) => {
     console.log('start:', start);
     console.log('end:', end);
 
-    // Call getDistanceDirections
     try {
         const result = await getDistanceDirections(start, end);
         console.log('distanceResult:', result);
@@ -151,6 +150,7 @@ export const getDistance = async (origin, destination) => {
 };
 
 export const getAutoCompleteSuggestions = async (input,maxRetries = 3, retryDelay = 2000) => {
+    const OpenRoutesServiceKey = process.env.REACT_APP_OPENROUTESERVICE_KEY;
     if (!input || typeof input !== 'string' || input.trim().length < 2) {
         throw new Error('Query must be a string with at least 2 characters');
     }

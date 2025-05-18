@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import userIcon from "../images/user.jpg";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
-import {BASE_URL} from "../../config.js";
+
 
 const UserLogin = () => {
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ const UserLogin = () => {
             password: userDetails.password
         }
 
-        const res = await axios.post(`${BASE_URL}/users/login`, user);
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, user);
         if (res.status === 200) {
             const data = res.data;
             console.log("first name :",data);

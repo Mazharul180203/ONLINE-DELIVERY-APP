@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import deliveryIcon from "../images/deliveryIcon.png";
 import {Link} from "react-router-dom";
 import axios from "axios";
-import {BASE_URL} from "../../config.js";
+
 
 const Captainlogin = () => {
     const [captainDetails, setCaptainDetails] = useState({
@@ -16,7 +16,7 @@ const Captainlogin = () => {
             email: captainDetails.email,
             password: captainDetails.password
         }
-        const res = await axios.post(`${BASE_URL}/captains/login`, captain);
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captain);
         const data = res.data;
         if (data['captain'].code === 200) {
             console.log("first name :", data['captain']['data'][0]['firstname']);
