@@ -1,8 +1,7 @@
 import axios from "axios";
-import {API_KEY, OpenRoutesServiceKey} from "../config.js";
 
 export const getAddressCoordinates = async (address) => {
-    const apiKey =API_KEY;
+    const apiKey =process.env.REACT_APP_API_KEY;
     try {
         const response = await axios.get('https://api.opencagedata.com/geocode/v1/json', {
             params: {
@@ -12,6 +11,7 @@ export const getAddressCoordinates = async (address) => {
                 language: 'en',
             },
         });
+
         //console.dir(response.data, { depth: null });
         if (response.data && response.data.status.code === 200 && response.data.results.length > 0) {
             const location = response.data.results[0].geometry;
@@ -32,6 +32,7 @@ export const getAddressCoordinates = async (address) => {
 
 export const getDistanceDirections = async (start, end, maxRetries = 3, retryDelay = 2000) => {
     // Validate coordinates
+    const OpenRoutesServiceKey = process.env.REACT_APP_OPENROUTESERVICE_API_KEY;
     if (!Array.isArray(start) || !Array.isArray(end) || start.length !== 2 || end.length !== 2) {
         throw new Error('Start and end must be arrays of [longitude, latitude]');
     }
