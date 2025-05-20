@@ -1,7 +1,7 @@
 import {getDistance} from "./maps.service.js";
 import {pool} from "../db.js";
 import crypto from 'crypto';
-const getFare = async (pickup,destination)=> {
+export const getFare = async (pickup,destination)=> {
     if(!pickup || !destination) {
         throw new Error("Pickup and destination are required");
     }

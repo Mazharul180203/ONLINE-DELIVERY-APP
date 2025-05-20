@@ -28,6 +28,7 @@ const Home = () => {
     const [confirmRidePanel, setConfirmRidePanel] = useState(false);
     const [vehicleFound, setVehicleFound] = useState(false);
     const [waitingforDriver, setWaitingforDriver] = useState(false);
+    const [fare, setFare] = useState(null)
     const [info, setInfo] = useState({
         pickup: "",
         destination: ""
@@ -68,41 +69,41 @@ const Home = () => {
         }
     }
 
-useGSAP(() => {
-    gsap.to(panelRef.current, {
-        height: panelOpen ? '70%' : '0%',
-    });
-    gsap.to(panelCloseref.current, {
-        opacity: panelOpen ? 1 : 0,
-    });
-}, [panelOpen]);
+    useGSAP(() => {
+        gsap.to(panelRef.current, {
+            height: panelOpen ? '70%' : '0%',
+        });
+        gsap.to(panelCloseref.current, {
+            opacity: panelOpen ? 1 : 0,
+        });
+    }, [panelOpen]);
 
-useGSAP(() => {
-    if(vehiclePanel){
+    useGSAP(() => {
+        if(vehiclePanel){
 
-        gsap.to(vehiclePanelRef.current, {
-            transform:'translateY(0)',
-        })
-    }else{
-        gsap.to(vehiclePanelRef.current, {
-            transform:'translateY(100%)',
-        })
-    }
-},[vehiclePanel])
+            gsap.to(vehiclePanelRef.current, {
+                transform:'translateY(0)',
+            })
+        }else{
+            gsap.to(vehiclePanelRef.current, {
+                transform:'translateY(100%)',
+            })
+        }
+    },[vehiclePanel])
 
-useGSAP(() => {
-    if(vehicleFound){
+    useGSAP(() => {
+        if(vehicleFound){
 
-        gsap.to(vehicleFoundRef.current, {
-            transform:'translateY(0)',
-        })
-    }else{
-        gsap.to(vehicleFoundRef.current, {
-            transform:'translateY(100%)',
-        })
-    }
-},[vehicleFound])
-useGSAP(() => {
+            gsap.to(vehicleFoundRef.current, {
+                transform:'translateY(0)',
+            })
+        }else{
+            gsap.to(vehicleFoundRef.current, {
+                transform:'translateY(100%)',
+            })
+        }
+    },[vehicleFound])
+    useGSAP(() => {
         if(waitingforDriver){
 
             gsap.to(waitingForDriverRef.current, {
@@ -115,7 +116,7 @@ useGSAP(() => {
         }
     },[waitingforDriver])
 
-useGSAP(() => {
+    useGSAP(() => {
     if(confirmRidePanel){
 
         gsap.to(confirmRidePanelRef.current, {
@@ -128,6 +129,18 @@ useGSAP(() => {
     }
 },[confirmRidePanel])
 
+    const findTrip = async () => {
+        setVehiclePanel(true);
+        setPanelOpen(false);
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+            params: { pickup, destination },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        setFare(response.data.fare)
+        console.log(response.data.fare)
+    }
     return (
         <div className="h-screen relative overflow-hidden">
             <img className="w-16 absolute left-5 top-5" src={deliveryIcon} alt="delivery icon"/>
@@ -169,8 +182,10 @@ useGSAP(() => {
                             placeholder='Enter your destination'
                         />
                     </form>
-                    <button className="bg-black mt-4 w-full text-white px-4 py-2 mb-8 rounded">
-                        Find trip
+                    <button
+                        onClick={findTrip}
+                        className='bg-black text-white px-4 py-2 rounded-lg mt-3 w-full'>
+                        Find Trip
                     </button>
                 </div>
                 <div ref={panelRef} className="h-0 bg-white mt-4">
@@ -184,7 +199,11 @@ useGSAP(() => {
                     />
                 </div>
                 <div ref={vehiclePanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
-                    <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel}/>
+                    <VehiclePanel
+                        setConfirmRidePanel={setConfirmRidePanel}
+                        setVehiclePanel={setVehiclePanel}
+                        fare={fare}
+                    />
                 </div>
                 <div ref={confirmRidePanelRef}
                      className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">

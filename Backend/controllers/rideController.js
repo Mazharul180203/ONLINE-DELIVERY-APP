@@ -18,3 +18,18 @@ export const createRide = async (req, res) => {
     }
 
 }
+
+export const getFare = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    const {pickup, destination} = req.query;
+    try {
+        const fare = await rideService.getFare(pickup, destination);
+        return res.status(200).json({message: "Fare fetched successfully", fare});
+    } catch (error) {
+        console.error("Error fetching fare:", error);
+        return res.status(500).json({error: "Internal server error"});
+    }
+}

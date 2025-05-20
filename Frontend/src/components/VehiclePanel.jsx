@@ -2,6 +2,7 @@ import React from 'react';
 import carIcon from "../images/car.webp";
 
 const VehiclePanel = (props) => {
+    console.log("fare", props.fare)
     return (
         <div>
             <h5 onClick={() => {
@@ -20,7 +21,8 @@ const VehiclePanel = (props) => {
                     <h5 className="font-medium text-lg">5 min away</h5>
                     <p className="font-normal text-xs text-gray-600">Luxury rides for special occasions</p>
                 </div>
-                <h2 className="text-xl font-semibold">$35.50</h2>
+
+                <h2 className="text-xl font-semibold">{props?.fare?.auto}</h2>
             </div>
             <div onClick={()=>{
                 props.setConfirmRidePanel(true);
@@ -33,7 +35,7 @@ const VehiclePanel = (props) => {
                     <h5 className="font-medium text-lg">3 min away</h5>
                     <p className="font-normal text-xs text-gray-600">Spacious rides for groups</p>
                 </div>
-                <h2 className="text-xl font-semibold">$28.75</h2>
+                <h2 className="text-xl font-semibold">{props?.fare?.moto}</h2>
             </div>
             <div onClick={()=>{
                 props.setConfirmRidePanel(true);
@@ -46,7 +48,7 @@ const VehiclePanel = (props) => {
                     <h5 className="font-medium text-lg">1 min away</h5>
                     <p className="font-normal text-xs text-gray-600">Eco-friendly, budget rides</p>
                 </div>
-                <h2 className="text-xl font-semibold">$15.20</h2>
+                <h2 className="text-xl font-semibold">{props?.fare?.car}</h2>
             </div>
 
         </div>

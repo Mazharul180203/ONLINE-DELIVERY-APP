@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import {body} from "express-validator";
+import {body, query} from "express-validator";
 import * as rideController from "../controllers/rideController.js";
 import * as authmiddleware from "../middleware/authMiddleware.js";
 
@@ -11,5 +11,9 @@ router.post('/create',
     body('vehicleType').isString().isLength({min: 3}).withMessage('Invalid vehicleType'),
     rideController.createRide
     )
+router.get('/get-fare', authmiddleware.authUser,
+    query('pickup').isString().isLength({min: 3}).withMessage('Invalid pickup'),
+    query('destination').isString().isLength({min: 3}).withMessage('Invalid destination'),
+    rideController.getFare)
 
 export default router;
