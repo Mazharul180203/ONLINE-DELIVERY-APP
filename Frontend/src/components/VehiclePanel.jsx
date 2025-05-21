@@ -12,6 +12,7 @@ const VehiclePanel = (props) => {
             <h3 className="text-2xl font-semibold mb-5">Choose the Vehicle</h3>
             <div onClick={()=>{
                 props.setConfirmRidePanel(true);
+                props.selectVehicle('auto');
             }}
                 className="flex border-2 active:border-black rounded-xl bg-gray-100 mb-2 w-full p-3 items-center justify-between">
                 <img className="h-12" src={carIcon} alt="car image"/>
@@ -22,10 +23,11 @@ const VehiclePanel = (props) => {
                     <p className="font-normal text-xs text-gray-600">Luxury rides for special occasions</p>
                 </div>
 
-                <h2 className="text-xl font-semibold">{props?.fare?.auto}</h2>
+                <h2 className="text-xl font-semibold">{props?.fare?.auto || 'N/A'}</h2>
             </div>
             <div onClick={()=>{
                 props.setConfirmRidePanel(true);
+                props.selectVehicle('moto');
             }}
                 className="flex border-2 rounded-xl active:border-black bg-gray-100 mb-2 w-full p-3 items-center justify-between">
                 <img className="h-12" src={carIcon} alt="car image"/>
@@ -35,10 +37,11 @@ const VehiclePanel = (props) => {
                     <h5 className="font-medium text-lg">3 min away</h5>
                     <p className="font-normal text-xs text-gray-600">Spacious rides for groups</p>
                 </div>
-                <h2 className="text-xl font-semibold">{props?.fare?.moto}</h2>
+                <h2 className="text-xl font-semibold">{props?.fare?.moto || 'N/A'}</h2>
             </div>
             <div onClick={()=>{
                 props.setConfirmRidePanel(true);
+                props.selectVehicle('car');
             }}
                 className="flex border-2 rounded-xl active:border-black bg-gray-100 mb-2 w-full p-3 items-center justify-between">
                 <img className="h-12" src={carIcon} alt="car image"/>
@@ -48,7 +51,7 @@ const VehiclePanel = (props) => {
                     <h5 className="font-medium text-lg">1 min away</h5>
                     <p className="font-normal text-xs text-gray-600">Eco-friendly, budget rides</p>
                 </div>
-                <h2 className="text-xl font-semibold">{props?.fare?.car}</h2>
+                <h2 className="text-xl font-semibold">{props?.fare?.car || 'N/A'}</h2>
             </div>
 
         </div>

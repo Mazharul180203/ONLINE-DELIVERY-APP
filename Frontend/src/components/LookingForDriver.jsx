@@ -15,21 +15,21 @@ const LookingForDriver = (props) => {
                         <i className="fa-solid fa-location-dot mr-4"></i>
                         <div>
                             <h3 className="text-lg font-medium">63/11-A</h3>
-                            <p className="text-sm -mt-1 text-gray-600">Dhaka, Banani</p>
+                            <p className="text-sm -mt-1 text-gray-600">{props.pickup}</p>
                         </div>
                     </div>
                     <div className="flex items-center p-3 border-b-2">
                         <i className="fa-regular fa-person mr-4"></i>
                         <div>
                             <h3 className="text-lg font-medium">63/11-A</h3>
-                            <p className="text-sm -mt-1 text-gray-600">Dhaka, Banani</p>
+                            <p className="text-sm -mt-1 text-gray-600">{props.destination}</p>
                         </div>
                     </div>
                     <div className="flex items-center p-3 border-b-2">
                         <i className="fa-solid fa-money-check-dollar mr-4"></i>
                         <div>
                             <h3 className="text-lg font-medium">63/11-A</h3>
-                            <p className="text-sm -mt-1 text-gray-600">Dhaka, Banani</p>
+                            <p className="text-sm -mt-1 text-gray-600">{props.vehicleType}</p>
                         </div>
                     </div>
                 </div>
