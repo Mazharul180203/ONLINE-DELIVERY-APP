@@ -35,6 +35,7 @@ const CaptainSignup = () => {
         if (data['captain'].code === 201) {
             console.log("first name :", data['captain']['data'][0]['firstname']);
             localStorage.setItem('token', data['token']);
+            localStorage.setItem('captainDetails', data['captain']['data']);
             setCaptainData(data.user);
             window.location.href = '/captain-home';
         }
@@ -43,7 +44,7 @@ const CaptainSignup = () => {
             email: "", password: "", firstName: "", lastName: "",
             capacity: "", vehiclecolor: "", vehicleplate: "", vehicletype: ""
         });
-        console.log(user);
+        console.log("setUserStore : ",data.user);
     };
 
     return (
