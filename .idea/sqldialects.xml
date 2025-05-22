@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/Backend/services/captainService.js" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/Backend/services/rideService.js" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/Backend/services/userService.js" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/Backend/socket.js" dialect="PostgreSQL" />
   </component>
 </project>
