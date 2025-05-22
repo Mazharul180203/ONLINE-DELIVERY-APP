@@ -16,6 +16,7 @@ const initializeSocket = (server) => {
 
         socket.on('join', async (data) => {
             const { userId, userType } = data;
+            console.log(`user ${userId} joined as ${userType}`);
 
             if (userType === 'user') {
                 try {

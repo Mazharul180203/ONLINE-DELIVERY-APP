@@ -32,10 +32,12 @@ const CaptainSignup = () => {
         };
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captain);
         const data = res.data;
+        debugger
         if (data['captain'].code === 201) {
+            debugger
             console.log("first name :", data['captain']['data'][0]['firstname']);
+            localStorage.setItem('captainDetails', JSON.stringify(data['captain']['data'][0]));
             localStorage.setItem('token', data['token']);
-            localStorage.setItem('captainDetails', data['captain']['data']);
             setCaptainData(data.user);
             window.location.href = '/captain-home';
         }

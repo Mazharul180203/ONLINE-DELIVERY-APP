@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import deliveryIcon from "../images/deliveryIcon.png";
 import mapIcon from "../images/map_images.png";
 import {useGSAP} from "@gsap/react";
@@ -11,6 +11,8 @@ import LookingForDriver from "../components/LookingForDriver.jsx";
 import WaitingForDrivers from "../components/WaitingForDrivers.jsx";
 import axios from "axios";
 import useLoadingStore from "../store/loadingStore.js";
+import {SocketContext}  from '../Socket/SocketProvider.jsx';
+
 
 const Home = () => {
     const [ pickup, setPickup ] = useState('')
@@ -30,11 +32,28 @@ const Home = () => {
     const [vehicleFound, setVehicleFound] = useState(false);
     const [waitingforDriver, setWaitingforDriver] = useState(false);
     const [vehicleType, setVehicleType] = useState(null);
-    const [fare, setFare] = useState(null)
+    const [fare, setFare] = useState(null);
     const setLoading = useLoadingStore((state) => state.setLoading);
+
+    const { socket } = useContext(SocketContext)
+
+
+    useEffect(() => {
+        const captainDetails = JSON.parse(localStorage.getItem('userDetails'));
+        const userId = captainDetails?.id;
+
+        if (!userId) {
+            console.error('No userId found in localStorage.userDetails');
+            return;
+        }
+        console.log("userId :", userId);
+        socket.emit("join", { userType: "user", userId: userId})
+    }, [])
+
     const submitHandler = (e) => {
         e.preventDefault();
     };
+
     const handlePickupChange = async (e) => {
         setPickup(e.target.value)
         try {
