@@ -25,8 +25,28 @@ const CaptainHome = () => {
             console.error('No userId found in localStorage.userDetails');
             return;
         }
-        console.log("userId :", captainId);
         socket.emit("join", { userType: "captain", userId: captainId})
+
+        const updateLocation = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+
+                    console.log("captaindetails :",{
+                        userId: captainId,
+                        latitude:position.coords.latitude,
+                        longitude:position.coords.longitude
+                    });
+                    
+                    socket.emit('update-location-captain', {
+                        userId: captainId,
+                        latitude:position.coords.latitude,
+                        longitude:position.coords.longitude
+                    })
+                })
+            }
+        }
+        const locationInterval = setInterval(updateLocation, 10000)
+        return () => clearInterval(locationInterval)
     }, [])
 
 

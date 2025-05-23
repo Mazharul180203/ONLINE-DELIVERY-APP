@@ -220,3 +220,26 @@ export const getAutoCompleteSuggestions = async (input,maxRetries = 3, retryDela
         }
     }
 };
+
+export const getCaptanInThisRadious = async (latitude, longitude, radius) => {
+    
+        const query = `
+        SELECT COUNT(*) AS captainCount
+        FROM captaindetails
+        WHERE ST_DWithin(
+            geography(ST_MakePoint(longitude, latitude)),
+            geography(ST_MakePoint($1, $2)),
+            $3
+        );
+    `;
+
+    try {
+        const result = await pool.query(query, [longitude, latitude, radius]);
+        console.log('captainCount:');
+        console.log('captainCount:', result.rows[0]);
+        return result.rows[0].captainCount;
+    } catch (error) {
+        console.error('Error fetching captains in area:', error.message);
+        throw new Error('Failed to fetch captains in the specified area');
+    }
+};

@@ -42,8 +42,19 @@ const initializeSocket = (server) => {
             socket.join(data);
         });
 
-        socket.on('disconnect', () => {
-            console.log(`Client disconnected: ${socket.id}`);
+        socket.on('update-location-captain', async (data) => {
+            const { userId, latitude, longitude} = data;
+
+            if (!userId || !latitude || !longitude) {
+                return socket.emit('error', { message: 'Invalid location data' });
+            }
+
+           await pool.query(
+                `UPDATE captaindetails 
+                 SET latitude = $1, longitude = $2  
+                 WHERE id = $3`,
+                [latitude, longitude, userId]
+            );
         });
     });
 };
