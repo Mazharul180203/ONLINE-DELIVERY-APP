@@ -39,8 +39,8 @@ const Home = () => {
 
 
     useEffect(() => {
-        const captainDetails = JSON.parse(localStorage.getItem('userDetails'));
-        const userId = captainDetails?.id;
+        const userDetails = JSON.parse(localStorage.getItem('userDetails'));
+        const userId = userDetails?.id;
 
         if (!userId) {
             console.error('No userId found in localStorage.userDetails');

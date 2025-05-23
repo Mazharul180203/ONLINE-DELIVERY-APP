@@ -20,6 +20,7 @@ const Captainlogin = () => {
         const data = res.data;
         if (data['captain'].code === 200) {
             console.log("first name :", data['captain']['data'][0]['firstname']);
+            localStorage.setItem('captainDetails', JSON.stringify(data['captain']['data'][0]));
             localStorage.setItem('token', data['token']);
             window.location.href = '/captain-home';
         }

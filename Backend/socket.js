@@ -34,12 +34,11 @@ const initializeSocket = (server) => {
                         `UPDATE captaindetails SET socketid = $1 WHERE id = $2 RETURNING *`,
                         [socket.id, userId]
                     );
-                    console.log("User updated:",result.rows[0]);
+                    console.log("Captain updated:",result.rows[0]);
                 }catch (error){
                     console.error('Error updating captain socketid:', error);
                 }
             }
-            console.log(`User joined: ${data}`);
             socket.join(data);
         });
 

@@ -23,9 +23,7 @@ const UserLogin = () => {
             const data = res.data;
             console.log("first name :",data);
             localStorage.setItem('token', data['token']);
-            debugger
             localStorage.setItem('userDetails', JSON.stringify(data['user']['data'][0]));
-            debugger
             navigate('/home')
         }
         setUserDetails({email: "", password: ""})

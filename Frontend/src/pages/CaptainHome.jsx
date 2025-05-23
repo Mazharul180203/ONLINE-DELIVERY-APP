@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import mapIcon from "../images/map_images.png";
 import CaptainDetails from "../components/CaptainDetails.jsx";
 import VehiclePanel from "../components/VehiclePanel.jsx";
@@ -6,12 +6,30 @@ import RidePopUp from "../components/RidePopUp.jsx";
 import {useGSAP} from "@gsap/react";
 import {gsap} from "gsap";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp.jsx";
+import useLoadingStore from "../store/loadingStore.js";
+import {SocketContext} from "../Socket/SocketProvider.jsx";
 
 const CaptainHome = () => {
     const [ridePopUpPanel, setRidePopUpPanel] = useState(true);
     const [confirmRidePopUpPanel, setConfirmRidePopUpPanel] = useState(false);
     const ridePopUpPanelRef = useRef(null);
     const confirmRidePopUpPanelRef = useRef(null);
+    const setLoading = useLoadingStore((state) => state.setLoading);
+
+    const { socket } = useContext(SocketContext);
+
+    useEffect(() => {
+        const captainDetails = JSON.parse(localStorage.getItem('captainDetails'));
+        const captainId = captainDetails?.id;
+        if (!captainId) {
+            console.error('No userId found in localStorage.userDetails');
+            return;
+        }
+        console.log("userId :", captainId);
+        socket.emit("join", { userType: "captain", userId: captainId})
+    }, [])
+
+
     useGSAP(() => {
         if(ridePopUpPanel){
 
