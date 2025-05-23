@@ -24,7 +24,7 @@ const initializeSocket = (server) => {
                         `UPDATE users SET socketid = $1 WHERE id = $2 RETURNING *`,
                         [socket.id, userId]
                     );
-                    console.log(`User updated: ${result.rows[0]}`);
+                    console.log("User updated:", result.rows[0]);
                 } catch (error) {
                     console.error('Error updating user socketid:', error);
                 }
@@ -34,7 +34,7 @@ const initializeSocket = (server) => {
                         `UPDATE captaindetails SET socketid = $1 WHERE id = $2 RETURNING *`,
                         [socket.id, userId]
                     );
-                    console.log(`User updated: ${result.rows[0]}`);
+                    console.log("User updated:",result.rows[0]);
                 }catch (error){
                     console.error('Error updating captain socketid:', error);
                 }
