@@ -1,4 +1,5 @@
 import axios from "axios";
+import {pool} from "../db.js";
 
 export const getAddressCoordinates = async (address) => {
     const apiKey =process.env.REACT_APP_API_KEY;
@@ -222,22 +223,20 @@ export const getAutoCompleteSuggestions = async (input,maxRetries = 3, retryDela
 };
 
 export const getCaptanInThisRadious = async (latitude, longitude, radius) => {
-    
-        const query = `
-        SELECT COUNT(*) AS captainCount
-        FROM captaindetails
-        WHERE ST_DWithin(
-            geography(ST_MakePoint(longitude, latitude)),
-            geography(ST_MakePoint($1, $2)),
-            $3
-        );
-    `;
 
+   console.log("getCaptanInThisRadious called with:", { latitude, longitude, radius });
     try {
-        const result = await pool.query(query, [longitude, latitude, radius]);
-        console.log('captainCount:');
-        console.log('captainCount:', result.rows[0]);
-        return result.rows[0].captainCount;
+        const result = await pool.query(`SELECT *
+            FROM captaindetails
+            WHERE (
+                6371 * acos(
+                    cos(radians($2)) * cos(radians(latitude)) *
+                    cos(radians(longitude) - radians($1)) +
+                    sin(radians($2)) * sin(radians(latitude))
+                )
+            ) <= $3
+        ;`, [longitude, latitude, radius]);
+        return result.rows;
     } catch (error) {
         console.error('Error fetching captains in area:', error.message);
         throw new Error('Failed to fetch captains in the specified area');
