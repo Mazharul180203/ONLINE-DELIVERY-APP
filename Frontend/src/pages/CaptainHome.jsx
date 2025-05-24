@@ -46,9 +46,14 @@ const CaptainHome = () => {
             }
         }
         const locationInterval = setInterval(updateLocation, 10000)
-        return () => clearInterval(locationInterval)
+       updateLocation();
     }, [])
 
+    
+    socket.on('new-ride', (data) => {
+        console.log("New ride request received:", data);
+    
+    });
 
     useGSAP(() => {
         if(ridePopUpPanel){
