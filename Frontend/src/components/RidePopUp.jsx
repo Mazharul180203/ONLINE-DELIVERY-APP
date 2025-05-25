@@ -13,7 +13,7 @@ const RidePopUp = (props) => {
                     <img className="h-12 w-10 rounded-full object-cover"
                          src="https://t4.ftcdn.net/jpg/02/14/74/61/360_F_214746128_31JkeaP6rU0NzzzdFC4khGkmqc8noe6h.jpg"
                          alt=""/>
-                    <h2 className="text-lg font-medium ">Mazharul Islam</h2>
+                    <h2 className="text-lg font-medium ">{props.ride?.firstname} {props.ride?.lastname}</h2>
                 </div>
                 <h5 className="text-lg font-semibold">2.2 KM</h5>
             </div>
@@ -24,21 +24,21 @@ const RidePopUp = (props) => {
                         <i className="fa-solid fa-location-dot mr-4"></i>
                         <div>
                             <h3 className="text-lg font-medium">63/11-A</h3>
-                            <p className="text-sm -mt-1 text-gray-600">Dhaka, Banani</p>
+                            <p className="text-sm -mt-1 text-gray-600">{props.ride?.pickup}</p>
                         </div>
                     </div>
                     <div className="flex items-center p-3 border-b-2">
                         <i className="fa-regular fa-person mr-4"></i>
                         <div>
                             <h3 className="text-lg font-medium">63/11-A</h3>
-                            <p className="text-sm -mt-1 text-gray-600">Dhaka, Banani</p>
+                            <p className="text-sm -mt-1 text-gray-600">{props.ride?.destination}</p>
                         </div>
                     </div>
                     <div className="flex items-center p-3 border-b-2">
                         <i className="fa-solid fa-money-check-dollar mr-4"></i>
                         <div>
-                            <h3 className="text-lg font-medium">63/11-A</h3>
-                            <p className="text-sm -mt-1 text-gray-600">Dhaka, Banani</p>
+                            <h3 className="text-lg font-medium">{props.ride?.fare}</h3>
+                            <p className="text-sm -mt-1 text-gray-600">Cash</p>
                         </div>
                     </div>
                 </div>

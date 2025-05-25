@@ -10,7 +10,8 @@ import useLoadingStore from "../store/loadingStore.js";
 import {SocketContext} from "../Socket/SocketProvider.jsx";
 
 const CaptainHome = () => {
-    const [ridePopUpPanel, setRidePopUpPanel] = useState(true);
+    const [ridePopUpPanel, setRidePopUpPanel] = useState(false);
+    const [ride, setRide] = useState(null);
     const [confirmRidePopUpPanel, setConfirmRidePopUpPanel] = useState(false);
     const ridePopUpPanelRef = useRef(null);
     const confirmRidePopUpPanelRef = useRef(null);
@@ -52,7 +53,9 @@ const CaptainHome = () => {
     
     socket.on('new-ride', (data) => {
         console.log("New ride request received:", data);
-    
+        setRide(data);
+        setRidePopUpPanel(true);
+
     });
 
     useGSAP(() => {
@@ -88,7 +91,10 @@ const CaptainHome = () => {
                 <CaptainDetails/>
             </div>
             <div ref={ridePopUpPanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
-                <RidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePopUpPanel={setConfirmRidePopUpPanel}/>
+                <RidePopUp 
+                    ride={ride}
+                    setRidePopUpPanel={setRidePopUpPanel}
+                    setConfirmRidePopUpPanel={setConfirmRidePopUpPanel}/>
             </div>
             <div ref={confirmRidePopUpPanelRef} className="fixed w-full z-10 translate-y-full bottom-0 bg-white px-3 py-10">
                 <ConfirmRidePopUp setConfirmRidePopUpPanel={setConfirmRidePopUpPanel} setRidePopUpPanel={setRidePopUpPanel}/>

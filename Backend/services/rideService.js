@@ -61,8 +61,10 @@ export const getRideWithUser = async (rideId) => {
     }
     console.log("rideId :", rideId);
     const result = await pool.query(
-        `SELECT * FROM users 
-         WHERE id = $1;`,
+        `SELECT *
+         FROM users as a
+         INNER JOIN ridedetails as b ON a.id = b.user_id
+         WHERE b.id = $1;`, 
         [rideId]
     );
     console.log("getRideWithUser :", result.rows[0]);
