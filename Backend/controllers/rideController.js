@@ -12,15 +12,18 @@ export const createRide = async (req, res) => {
     try {
         console.log("userID :", req.user.id);
         const ride = await rideService.createRide({user:req.user.id, pickup, destination, vehicleType});
+        console.log("ridedetails :", ride);
         const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
         console.log("pickupCoordinates :", pickupCoordinates);
         const captainInRadious = await mapService.getCaptanInThisRadious(pickupCoordinates.lat, pickupCoordinates.lng, 2000);
         console.log("captainInRadious :", captainInRadious);
         ride.otp="";
-        captainInRadious.map(captain => {
+        console.log("rideID :", ride.user_id);
+        const rideWithUser = await rideService.getRideWithUser(ride.user_id);
+        captainInRadious.map(captain => { 
              sendMessageToSocketId(captain.socketid, {
                 event: 'new-ride',
-                data: ride
+                data: rideWithUser
             })
         });
         return res.status(201).json({message: "Ride created successfully", ride});

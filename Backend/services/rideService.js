@@ -54,3 +54,17 @@ export const createRide = async ({user,pickup, destination, vehicleType}) => {
     );
     return result.rows[0];
 }
+
+export const getRideWithUser = async (rideId) => {
+    if(!rideId) {
+        throw new Error("Ride ID is required");
+    }
+    console.log("rideId :", rideId);
+    const result = await pool.query(
+        `SELECT * FROM users 
+         WHERE id = $1;`,
+        [rideId]
+    );
+    console.log("getRideWithUser :", result.rows[0]);
+    return result.rows[0];
+}
