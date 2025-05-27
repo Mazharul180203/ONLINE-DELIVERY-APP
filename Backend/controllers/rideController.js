@@ -14,11 +14,8 @@ export const createRide = async (req, res) => {
         const ride = await rideService.createRide({user:req.user.id, pickup, destination, vehicleType});
         console.log("ridedetails :", ride);
         const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
-        console.log("pickupCoordinates :", pickupCoordinates);
         const captainInRadious = await mapService.getCaptanInThisRadious(pickupCoordinates.lat, pickupCoordinates.lng, 2000);
-        console.log("captainInRadious :", captainInRadious);
         ride.otp="";
-        console.log("rideID :", ride.id);
         const rideWithUser = await rideService.getRideWithUser(ride.id);
         captainInRadious.map(captain => { 
              sendMessageToSocketId(captain.socketid, {

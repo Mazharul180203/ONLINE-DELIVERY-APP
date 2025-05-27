@@ -59,7 +59,6 @@ export const getRideWithUser = async (rideId) => {
     if(!rideId) {
         throw new Error("Ride ID is required");
     }
-    console.log("rideId :", rideId);
     const result = await pool.query(
         `SELECT *
          FROM users as a
@@ -67,6 +66,5 @@ export const getRideWithUser = async (rideId) => {
          WHERE b.id = $1;`, 
         [rideId]
     );
-    console.log("getRideWithUser :", result.rows[0]);
     return result.rows[0];
 }
