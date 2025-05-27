@@ -58,6 +58,8 @@ const CaptainHome = () => {
 
     });
 
+    
+
     useGSAP(() => {
         if(ridePopUpPanel){
 
