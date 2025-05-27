@@ -68,3 +68,28 @@ export const getRideWithUser = async (rideId) => {
     );
     return result.rows[0];
 }
+
+
+export const confirmRide = async (rideId, captainId) => {
+    if(!rideId || !captainId) {
+        throw new Error("Ride ID and Captain ID are required");
+    }
+    console.log("rideId :", rideId);
+    console.log("captainId :", captainId);
+
+    await pool.query(
+        `UPDATE ridedetails 
+         SET status = 'confirmed', captain_id = $1 
+         WHERE id = $2 
+         RETURNING *;`, 
+        [captainId, rideId]
+    );
+    const result = await pool.query(
+        `SELECT *
+         FROM ridedetails
+         inner join users on ridedetails.user_id = users.id
+         WHERE ridedetails.id = $1;`, 
+        [rideId]
+    );
+    return result.rows[0];
+}

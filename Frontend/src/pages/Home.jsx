@@ -50,6 +50,13 @@ const Home = () => {
         socket.emit("join", { userType: "user", userId: userId})
     }, [])
 
+
+    socket.on('ride-confirmed', (data) => {
+        console.log("Ride confirmed:", data);
+        setVehicleFound(true);
+        setWaitingforDriver(true);
+    });
+
     const submitHandler = (e) => {
         e.preventDefault();
     };

@@ -14,6 +14,11 @@ router.post('/create',
 router.get('/get-fare', authmiddleware.authUser,
     query('pickup').isString().isLength({min: 3}).withMessage('Invalid pickup'),
     query('destination').isString().isLength({min: 3}).withMessage('Invalid destination'),
-    rideController.getFare)
+    rideController.getFare);
+
+router.post('/confirm',
+    authmiddleware.authCaptain,
+    body('rideId').isInt().withMessage('Invalid ride ID'),
+    rideController.confirmRide);
 
 export default router;

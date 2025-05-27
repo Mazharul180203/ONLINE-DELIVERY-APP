@@ -37,8 +37,11 @@ export const authCaptain = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_CAPTAIN);
-        const user = await findCaptainById(decoded.id);
-        req.user = user.data[0];
+        console.log("decoded :", decoded);
+        const captain = await findCaptainById(decoded.id);
+        console.log("captain :", captain);
+        req.captain = captain.data[0];
+        console.log("req.captain :", req.captain);
         next();
     } catch (error) {
         return res.status(401).json({ message: 'Invalid token' });

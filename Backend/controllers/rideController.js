@@ -44,3 +44,28 @@ export const getFare = async (req, res) => {
         return res.status(500).json({error: "Internal server error"});
     }
 }
+
+export const confirmRide = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    const {rideId} = req.body;
+    console.log("rideId :", rideId);
+    console.log("captainId :", req.captain.id);
+    try {
+        const ride = await rideService.confirmRide(rideId, req.captain.id);
+        if (!ride) {
+            return res.status(404).json({message: "Ride not found"});
+        }
+        console.log("ride :", ride);
+        sendMessageToSocketId(ride.socketid, {
+            event: 'ride-confirmed',
+            data: ride
+        });
+        return res.status(200).json({message: "Ride confirmed successfully", ride});
+    } catch (error) {
+        console.error("Error confirming ride:", error);
+        return res.status(500).json({error: "Internal server error"});
+    }
+}
